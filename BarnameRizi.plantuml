@@ -1,0 +1,247 @@
+@startuml
+
+' skinparam Monochrome true
+skinparam roundcorner 8
+
+' skinparam interface {
+'   backgroundColor RosyBrown
+'   borderColor orange
+' }
+
+' skinparam component {
+'   FontSize 13
+'   BackgroundColor<<Apache>> Red
+'   BorderColor<<Apache>> #FF6655
+'   FontName Courier
+'   BorderColor black
+'   BackgroundColor gold
+'   ArrowFontName Impact
+'   ArrowColor #FF6655
+'   ArrowFontColor #777777
+' }
+
+skinparam class {
+	BackgroundColor #C0C0C0
+	ArrowColor black
+	BorderColor IndianRed
+}
+
+skinparam stereotypeCBackgroundColor gold
+skinparam stereotypeIBackgroundColor AntiqueWhite
+skinparam stereotypeABackgroundColor yellow
+
+
+title \n1.1 - Design level Class Diagram\n
+
+  class CourseTypeEnum <<enumeration>> {
+    theory
+    practical
+  }
+  class DayOfWeek <<enumeration>> {
+    Sat
+    Sun
+    Mon
+    Tue
+    Wed
+    Thu
+    Fri
+  }
+  class College <<enumeration>> {
+    ece
+    centeralCollegeOfEngineering
+  }
+
+  class Person {
+    - String firstName
+    - String lastName
+    - String phoneNumber
+    - String id
+  }
+  Person <|- Student
+  Person <|- Professor
+
+  class Student {
+    - String enteranceYear
+  }
+
+  class Professor {
+
+  }
+
+' Reshte
+  class Field {
+  
+  }
+
+' Gerayesh
+  class Major {
+
+  }
+
+' dars
+  class Course {
+    .. fields ..
+    ' - Niaz[] pishniazha 
+    ' - Niaz[] hamniazha
+    ' - CourseTypeEnum courseType
+    ' - Professor professor
+    - String name
+    - Number vahed
+    .. getters ..
+    .. setters ..
+    .. methods ..
+  }
+  Course "1" o-- "*" Niaz : Pishniaz
+  Course "1" o-- "*" NiazDarsi : Hamniaz
+  Course  <-right- CourseTypeEnum : courseType 
+
+  class CourseTermi {
+    - String year
+    - String term
+  }
+  CourseTermi "*" *---- "1" Course
+  CourseTermi "*" o-- "*" Professor : professor
+  CourseTermi "*" o-- "*" Student : students
+  CourseTermi "1" o-- "1" WeeklyTimeSlot
+  CourseTermi "1" o-- "1" College : presentationCollege
+
+  class WeeklyTimeSlot {
+    - Time startTime
+    - Time endTime
+  }
+  WeeklyTimeSlot <-- DayOfWeek : weekDay
+
+  abstract class Niaz {
+
+  }
+
+  class NiazDarsi {
+
+  } 
+  Niaz <|-down- NiazDarsi
+
+  class NiazVahedi {
+
+  } 
+  Niaz <|-down- NiazVahedi
+
+  class Chart {
+
+  }
+
+  ' class CSVGradeBookParser {
+  '   - filename : String
+  '   + CSVGradeBookParser()
+  '   + parse()
+  ' }
+  
+
+  ' class FileHandler {
+  '       {static} + contentType()
+  '       + handle()
+  ' }
+  
+
+  ' class GBServer {
+  '       {static} + main()
+  ' }
+  
+
+  ' class GradeBook {
+  '       {static} - theGradeBook : GradeBook
+  '       - students : Map<String, StudentInfo>
+  '       {static} + gb()
+  '       {static} + init()
+  '       - GradeBook()
+  '       + getItem()
+  '       + getAll()
+  '       + percentPassed()
+  ' }
+  
+
+  ' interface GradeBookParser {
+  '       {abstract} + parse()
+  ' }
+  
+
+  ' class Page {
+  '       - filename : String
+  '       - attributes : Map<String, String>
+  '       + Page()
+  '       + subst()
+  '       + writeTo()
+  ' }
+  
+
+  ' class PercentPassed {
+  '       + execute()
+  ' }
+  
+
+  ' abstract class ServiceHandler {
+  '       # params : Map<String, String>
+  '       - extractParams()
+  '       {abstract} + execute()
+  '       + handle()
+  ' }
+  
+
+  ' class ShowStudentInfo {
+  '       + execute()
+  ' }
+  
+
+  ' class StudentInfo {
+  '       - name : String
+  '       - scores : Map<String, Double>
+  '       + StudentInfo()
+  '       + setScore()
+  '       + getName() 
+  '       + getScore()
+  '       + getTotal()
+  ' }
+  
+
+  ' class XMLGradeBookParser {
+  '       - filename : String
+  '       + XMLGradeBookParser()
+  '       + parse()
+  ' }
+  
+
+  ' CSVGradeBookParser --|> GradeBookParser
+  ' FileHandler -up-|> HttpHandler
+  ' PercentPassed -up-|> ServiceHandler
+  ' ServiceHandler --|> HttpHandler
+  ' ShowStudentInfo -up-|> ServiceHandler
+  ' XMLGradeBookParser "1" *-up-> "1" StudentInfo
+  ' XMLGradeBookParser .up.> StudentInfo : create
+  ' CSVGradeBookParser .up.> StudentInfo : create
+  ' GradeBook "1" *-up-> "*" StudentInfo
+  ' GradeBook .up.> StudentInfo
+  ' ShowStudentInfo .up.> StudentInfo
+  ' GradeBookParser .up.> StudentInfo
+  ' XMLGradeBookParser .left.> GradeBookParser
+  ' CSVGradeBookParser .right.> GradeBookParser
+  ' GradeBook .down.> GradeBookParser
+  ' GBServer .up.> XMLGradeBookParser : create
+  ' GBServer .up.> GradeBook
+  ' GBServer .up.> PercentPassed
+  ' GBServer .up.> ShowStudentInfo
+  ' GBServer .up.> FileHandler
+  ' PercentPassed .up.> GradeBook
+  ' PercentPassed .down.> Page
+  ' PercentPassed .up.> ServiceHandler
+  ' ShowStudentInfo .up.> GradeBook : create
+  ' ShowStudentInfo .down.> Page : create
+  ' ShowStudentInfo .up.> ServiceHandler
+
+
+  
+
+
+footer
+\n
+endfooter
+
+@enduml
