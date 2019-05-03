@@ -50,50 +50,73 @@ title \n1.1 - Design level Class Diagram\n
     ece
     centeralCollegeOfEngineering
   }
+  class EnteranceTerm <<enumeration>> {
+    Fall
+    Winter
+  }
+  abstract class AkhzCourseState {
+  }
+  class RegisteredCourseState {
+  }
+  AkhzCourseState <|-- RegisteredCourseState
+  class PendingCourseState {
+  }
+  AkhzCourseState <|-- PendingCourseState
+  class HazfEzterariCourseState {
+  }
+  AkhzCourseState <|-- HazfEzterariCourseState
+  class HazfPezeshkiCourseState {
+  }
+  AkhzCourseState <|-- HazfPezeshkiCourseState
+
+package Schedule <<Folder>> {
+
+  class EnteranceYear {
+    - string year
+  }
+  EnteranceYear o- EnteranceTerm
 
   class Person {
     - String firstName
     - String lastName
     - String phoneNumber
-    - String id
+    - String nationalCode
   }
   Person <|- Student
   Person <|- Professor
 
   class Student {
-    - String enteranceYear
+    - String sid
   }
+  Student o-- EnteranceYear
 
   class Professor {
-
+    - String pid
   }
 
 ' Reshte
-  class Field {
-  
+  class Major {
+    - string name
   }
 
 ' Gerayesh
-  class Major {
-
+  class Field {
+    - string name
   }
+  Field "*" -- "1" Major
 
 ' dars
   class Course {
-    .. fields ..
-    ' - Niaz[] pishniazha 
-    ' - Niaz[] hamniazha
-    ' - CourseTypeEnum courseType
-    ' - Professor professor
+    ' .. fields ..
     - String name
     - Number vahed
-    .. getters ..
-    .. setters ..
-    .. methods ..
+    ' .. getters ..
+    ' .. setters ..
+    ' .. methods ..
   }
   Course "1" o-- "*" Niaz : Pishniaz
   Course "1" o-- "*" NiazDarsi : Hamniaz
-  Course  <-right- CourseTypeEnum : courseType 
+  Course  o-right- CourseTypeEnum : courseType 
 
   class CourseTermi {
     - String year
@@ -112,7 +135,6 @@ title \n1.1 - Design level Class Diagram\n
   WeeklyTimeSlot <-- DayOfWeek : weekDay
 
   abstract class Niaz {
-
   }
 
   class NiazDarsi {
@@ -128,7 +150,25 @@ title \n1.1 - Design level Class Diagram\n
   class Chart {
 
   }
+  Chart "1" o-- "1" Field
+  Chart "*" o--- "*" Course
+  Chart "*" o-right- "1" EnteranceYear
 
+}
+
+package EntekhabVahed <<Folder>> {
+  class CourseAkhzShode {
+  }
+  CourseAkhzShode "*" o-- "1" CourseTermi
+  CourseAkhzShode o-- AkhzCourseState
+
+  class EntekhabVahedTerm {
+    - Number minVahed
+    - Number maxVahed
+  }
+  EntekhabVahedTerm "*" o-- "1" Student
+  EntekhabVahedTerm "1" o-- "*" CourseAkhzShode
+}
   ' class CSVGradeBookParser {
   '   - filename : String
   '   + CSVGradeBookParser()
