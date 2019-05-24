@@ -28,17 +28,20 @@ class Student << (E,LightSkyBlue) >> {
 }
 
 
-Student o-- EnteranceYear
-enum EnteranceTerm << (e,WhiteSmoke) enumeration>> {
+Student o-- EnteranceTerm
+enum EnteranceSeason << (e,WhiteSmoke) enumeration>> {
   Fall
   Winter
 }
-class EnteranceYear << (V,LawnGreen) >> {
+class EnteranceTerm << (V,LawnGreen) >> {
   - string year
 }
-EnteranceYear o-left- EnteranceTerm
+EnteranceTerm o-left- EnteranceSeason
 
-
+Person <|- Professor
+class Professor << (E,LightSkyBlue) >> {
+  - String pid
+}
 
 class MasoulAmoozesh << (E,LightSkyBlue) >> {
 }
@@ -60,7 +63,7 @@ package ChartAgg {
   Field "*" -- "1" Major
   Chart "1" o-- "1" Field
 }
-Chart "*" o-- "1" EnteranceYear
+Chart "*" o-- "1" EnteranceTerm
 
 package CourseAgg {
   Chart "*" o--- "*" Course
@@ -89,24 +92,21 @@ package CourseAgg {
 }
 
 package CourseTermiAgg {
-  Person <|- Professor
-  class Professor << (E,LightSkyBlue) >> {
-    - String pid
-  }
+  
   class CourseTermi << (E,LightSkyBlue) >> {
     - String year
     - String term
   }
   CourseTermi "*" *---- "1" Course
   CourseTermi "*" o-- "*" Professor : professor
-  CourseTermi "*" o-- "*" Student : students
+  ' CourseTermi "*" o-- "*" Student : students
   CourseTermi "1" o-- "1" WeeklyTimeSlot
   CourseTermi "1" o-- "1" College : presentationCollege
   class WeeklyTimeSlot << (V,LawnGreen) >> {
     - Time startTime
     - Time endTime
   }
-  WeeklyTimeSlot <-- DayOfWeek : weekDay
+  WeeklyTimeSlot o-- DayOfWeek : weekDay
   enum DayOfWeek << (e,WhiteSmoke) enumeration>> {
     Sat
     Sun
@@ -128,7 +128,7 @@ class EntekhabVahedTerm << (E,LightSkyBlue) >> {
   - Number minVahed
   - Number maxVahed
 }
-EntekhabVahedTerm "*" o-- "1" Student
+EntekhabVahedTerm "*" --o "1" Student
 
 package CourseAkhzShodeAgg {
   EntekhabVahedTerm "1" o-- "*" CourseAkhzShode
