@@ -28,11 +28,11 @@ class WeeklyTimeSlotImpl implements WeeklyTimeSlot {
   }
 }
 
-export class WeeklyTimeSlotFactory {
-  constructor(startHour: number, startMinute: number, endHour: number, endMinute: number, weekDay: DayOfWeek) {
-    new WeeklyTimeSlotImpl(new Time(startHour, startMinute), new Time(endHour, endMinute), weekDay);
+export const WeeklyTimeSlotFactory = {
+  createWeeklyTimeSlot(startHour: number, startMinute: number, endHour: number, endMinute: number, weekDay: DayOfWeek) {
+    return new WeeklyTimeSlotImpl(new Time(startHour, startMinute), new Time(endHour, endMinute), weekDay);
   }
-}
+};
 
 class Time {
   constructor(private hour: number, private minute: number) {}
