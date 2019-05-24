@@ -54,27 +54,16 @@ title \n1.1 - Design level Class Diagram\n
     Fall
     Winter
   }
-  abstract class AkhzCourseState {
+  class MojavezState <<enumeration>> {
+    Rejected
+    Accepted
+    Pending
   }
-  class RegisteredCourseState {
-  }
-  AkhzCourseState <|-- RegisteredCourseState
-  class PendingCourseState {
-  }
-  AkhzCourseState <|-- PendingCourseState
-  class HazfEzterariCourseState {
-  }
-  AkhzCourseState <|-- HazfEzterariCourseState
-  class HazfPezeshkiCourseState {
-  }
-  AkhzCourseState <|-- HazfPezeshkiCourseState
-
-package Schedule <<Folder>> {
 
   class EnteranceYear {
     - string year
   }
-  EnteranceYear o- EnteranceTerm
+  EnteranceYear o-left- EnteranceTerm
 
   class Person {
     - String firstName
@@ -84,6 +73,7 @@ package Schedule <<Folder>> {
   }
   Person <|- Student
   Person <|- Professor
+  Person <|- MasoulAmoozesh
 
   class Student {
     - String sid
@@ -93,6 +83,11 @@ package Schedule <<Folder>> {
   class Professor {
     - String pid
   }
+
+  class MasoulAmoozesh {
+  }
+
+package Schedule <<Folder>> {
 
 ' Reshte
   class Major {
@@ -157,10 +152,65 @@ package Schedule <<Folder>> {
 }
 
 package EntekhabVahed <<Folder>> {
+  abstract class AkhzCourseState {
+  }
+  class RegisteredCourseState {
+  }
+  AkhzCourseState <|-- RegisteredCourseState
+  class PendingCourseState {
+  }
+  AkhzCourseState <|-- PendingCourseState
+  class RegisteredCourse_HazfEzafe_State {
+  }
+  AkhzCourseState <|-- RegisteredCourse_HazfEzafe_State
+  class PendingCourse_HazfEzafe_State {
+  }
+  AkhzCourseState <|-- PendingCourse_HazfEzafe_State
+  class HazfEzterariCourseState {
+  }
+  AkhzCourseState <|-- HazfEzterariCourseState
+  class HazfPezeshkiCourseState {
+  }
+  AkhzCourseState <|-- HazfPezeshkiCourseState
+
+  abstract class AkhzCourseError {
+  }
+  class AdamReayatPishNiazError {
+  }
+  AkhzCourseError <|-up- AdamReayatPishNiazError
+  class KafAkhzVahedError {
+  }
+  AkhzCourseError <|-up- KafAkhzVahedError
+  class SaqfAkhzVahedError {
+  }
+  AkhzCourseError <|-up- SaqfAkhzVahedError
+  class TadakholZamanClassError {
+  }
+  AkhzCourseError <|-up- TadakholZamanClassError
+  class TadakholZamanEmtehanError {
+  }
+  AkhzCourseError <|-up- TadakholZamanEmtehanError
+  class AkhzMojadadError {
+  }
+  AkhzCourseError <|-up- AkhzMojadadError
+  class EtmamZarfiatError {
+  }
+  AkhzCourseError <|-up- EtmamZarfiatError
+  class AkhzKarAmooziWithCourseError {
+  }
+  AkhzCourseError <|-up- AkhzKarAmooziWithCourseError
+
+  class DarkhastMojavez {
+    - String description
+  }
+  DarkhastMojavez o-- AkhzCourseError
+  DarkhastMojavez o-- MojavezState
+
   class CourseAkhzShode {
   }
   CourseAkhzShode "*" o-- "1" CourseTermi
-  CourseAkhzShode o-- AkhzCourseState
+  CourseAkhzShode "1" o-- "1" AkhzCourseState
+  CourseAkhzShode "1" o-- "*" DarkhastMojavez
 
   class EntekhabVahedTerm {
     - Number minVahed
@@ -168,6 +218,17 @@ package EntekhabVahed <<Folder>> {
   }
   EntekhabVahedTerm "*" o-- "1" Student
   EntekhabVahedTerm "1" o-- "*" CourseAkhzShode
+
+
+  class MojavezHandler { 
+  }
+  MojavezHandler <-- AkhzCourseError
+  MojavezHandler <-- DarkhastMojavez
+  MasoulAmoozesh <-- MojavezHandler
+  class AkhzCourseHandler {
+  }
+  MasoulAmoozesh <-- AkhzCourseHandler
+  AkhzCourseHandler <-- CourseAkhzShode
 }
   ' class CSVGradeBookParser {
   '   - filename : String
