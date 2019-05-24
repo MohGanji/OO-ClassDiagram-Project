@@ -50,7 +50,7 @@ title \n1.1 - Design level Class Diagram\n
     ece
     centeralCollegeOfEngineering
   }
-  class EnteranceTerm <<enumeration>> {
+  class EducationalTerm <<enumeration>> {
     Fall
     Winter
   }
@@ -63,7 +63,7 @@ title \n1.1 - Design level Class Diagram\n
   class EnteranceYear {
     - string year
   }
-  EnteranceYear o-left- EnteranceTerm
+  EnteranceYear o-left- EducationalTerm
 
   class Person {
     - String firstName

@@ -28,15 +28,15 @@ class Student << (E,LightSkyBlue) >> {
 }
 
 
-Student o-- EnteranceTerm
-enum EnteranceSeason << (e,WhiteSmoke) enumeration>> {
+Student o-- EducationalTerm : EntranceTerm
+enum EducationalSeason << (e,WhiteSmoke) enumeration>> {
   Fall
-  Winter
+  Spring
 }
-class EnteranceTerm << (V,LawnGreen) >> {
+class EducationalTerm << (V,LawnGreen) >> {
   - string year
 }
-EnteranceTerm o-left- EnteranceSeason
+EducationalTerm o-left- EducationalSeason
 
 Person <|- Professor
 class Professor << (E,LightSkyBlue) >> {
@@ -63,7 +63,8 @@ package ChartAgg {
   Field "*" -- "1" Major
   Chart "1" o-- "1" Field
 }
-Chart "*" o-- "1" EnteranceTerm
+Chart "*" o-- "1" EducationalTerm
+EntekhabVahedTerm "*" o-- "1" EducationalTerm
 
 package CourseAgg {
   Chart "*" o--- "*" Course

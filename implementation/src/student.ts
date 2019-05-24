@@ -1,6 +1,6 @@
 import Person from './person';
-import EnteranceTerm from './enterance-term';
-
+import EducationalTerm from './educational-term';
+ 
 export default class Student extends Person {
   constructor(
     firstName: string,
@@ -8,7 +8,7 @@ export default class Student extends Person {
     phoneNumber: string,
     nationalCode: string,
     private sid: string,
-    private enteranceTerm: EnteranceTerm
+    private enteranceTerm: EducationalTerm
   ) {
     super(firstName, lastName, phoneNumber, nationalCode);
   }
