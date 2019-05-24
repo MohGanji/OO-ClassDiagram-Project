@@ -25,6 +25,7 @@ Person <|- Student
 
 class Student << (E,LightSkyBlue) >> {
   - String sid
+  - Number avgGrade
 }
 
 
@@ -141,6 +142,8 @@ package CourseAkhzShodeAgg {
     HazfPezeshki
     Registered in HazfEzafe
     Pending in HazfEzafe
+    Passed
+    Failed
   }
   class CourseAkhzShode << (E,LightSkyBlue) >> {
   }
@@ -163,7 +166,7 @@ MasoulAmoozesh <-- MojavezHandler
 package MojavezAgg {
   MojavezHandler <-- DarkhastMojavez
   ' MojavezHandler <-- AkhzCourseError
-  enum AkhzCourseError << (e,WhiteSmoke) enumeration>> {
+  enum AkhzCourseError << (e,WhiteSmoke) enumeration >> {
     AdamReayatPishNiaz
     KafAkhzVahed
     SaqfAkhzVahed
@@ -180,7 +183,7 @@ package MojavezAgg {
   DarkhastMojavez o-- AkhzCourseError
   DarkhastMojavez o-- MojavezState
   CourseAkhzShode "1" o-- "*" DarkhastMojavez
-  enum MojavezState << (e,WhiteSmoke) enumeration>> {
+  enum MojavezState << (e,WhiteSmoke) enumeration >> {
     Rejected
     Accepted
     Pending

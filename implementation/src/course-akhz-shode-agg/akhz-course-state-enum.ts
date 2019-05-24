@@ -4,5 +4,7 @@ export enum AkhzCourseState {
   HazfEzterari,
   HazfPezeshki,
   Registered_in_HazfEzterari,
-  Pending_in_HazfEzafe
+  Pending_in_HazfEzafe,
+  Passed,
+  Failed
 }

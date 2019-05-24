@@ -1,4 +1,4 @@
-import { AkhzCourseState } from './akhz-course-state';
+import { AkhzCourseState } from './akhz-course-state-enum';
 import { CourseTermi } from '../course-termi-agg/course-termi';
 
 export default class CourseAkhzShode {

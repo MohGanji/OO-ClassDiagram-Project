@@ -1,13 +1,13 @@
-import CourseAkhzShode from './course-akhz-shode-agg/course-akhz-shode';
+import { Course } from './course-agg/course';
 import Student from './student';
-import { AkhzCourseState } from './course-akhz-shode-agg/akhz-course-state';
 
 class AkhzCourseHandlerSingleton {
   constructor() {}
 
-  DependenciesResolved(course: CourseAkhzShode, student: Student): boolean {
-    if (course.state !== AkhzCourseState.Registered) return true;
-    return false; // TODO
+  areDependenciesResolved(course: Course, student: Student): boolean {
+    // get course niazes
+    // see if student passed all the niazes
+    return false;
   }
 }
 
