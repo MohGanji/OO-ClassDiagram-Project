@@ -1,0 +1,189 @@
+@startuml
+
+skinparam roundcorner 8
+
+skinparam class {
+	BackgroundColor #C0C0C0
+	ArrowColor black
+	BorderColor IndianRed
+}
+
+skinparam stereotypeCBackgroundColor gold
+skinparam stereotypeIBackgroundColor AntiqueWhite
+skinparam stereotypeABackgroundColor yellow
+
+title \n1.1 - Aggregate barname rizi\n
+
+abstract class Person {
+  - String firstName
+  - String lastName
+  - String phoneNumber
+  - String nationalCode
+}
+Person <|- MasoulAmoozesh
+Person <|- Student
+
+class Student << (E,LightSkyBlue) >> {
+  - String sid
+}
+
+
+Student o-- EnteranceYear
+enum EnteranceTerm << (e,WhiteSmoke) enumeration>> {
+  Fall
+  Winter
+}
+class EnteranceYear << (V,LawnGreen) >> {
+  - string year
+}
+EnteranceYear o-left- EnteranceTerm
+
+
+
+class MasoulAmoozesh << (E,LightSkyBlue) >> {
+}
+
+
+package ChartAgg {
+' Reshte
+  class Major << (E,LightSkyBlue) >> {
+    - string name
+  }
+
+' Gerayesh
+  class Field << (E,LightSkyBlue) >> {
+    - string name
+  }
+
+  class Chart << (E,LightSkyBlue) >> {
+  }
+  Field "*" -- "1" Major
+  Chart "1" o-- "1" Field
+}
+Chart "*" o-- "1" EnteranceYear
+
+package CourseAgg {
+  Chart "*" o--- "*" Course
+  abstract class Niaz {
+  }
+
+  class Course << (E,LightSkyBlue) >> {
+    - String name
+    - Number vahed
+  }
+  class NiazDarsi << (V,LawnGreen) >> {
+  } 
+  Niaz <|-- NiazDarsi
+
+  class NiazVahedi << (V,LawnGreen) >> {
+  } 
+  Niaz <|-- NiazVahedi
+  Course "1" o-- "*" Niaz : Pishniaz
+  Course "1" o-- "*" NiazDarsi : Hamniaz
+  Course  o-- CourseTypeEnum : courseType 
+
+  enum CourseTypeEnum << (e,WhiteSmoke) enumeration>> {
+    theory
+    practical
+  }
+}
+
+package CourseTermiAgg {
+  Person <|- Professor
+  class Professor << (E,LightSkyBlue) >> {
+    - String pid
+  }
+  class CourseTermi << (E,LightSkyBlue) >> {
+    - String year
+    - String term
+  }
+  CourseTermi "*" *---- "1" Course
+  CourseTermi "*" o-- "*" Professor : professor
+  CourseTermi "*" o-- "*" Student : students
+  CourseTermi "1" o-- "1" WeeklyTimeSlot
+  CourseTermi "1" o-- "1" College : presentationCollege
+  class WeeklyTimeSlot << (V,LawnGreen) >> {
+    - Time startTime
+    - Time endTime
+  }
+  WeeklyTimeSlot <-- DayOfWeek : weekDay
+  enum DayOfWeek << (e,WhiteSmoke) enumeration>> {
+    Sat
+    Sun
+    Mon
+    Tue
+    Wed
+    Thu
+    Fri
+  }
+  enum College << (e,WhiteSmoke) enumeration>> {
+    ece
+    centeralCollegeOfEngineering
+  }
+
+}
+
+
+class EntekhabVahedTerm << (E,LightSkyBlue) >> {
+  - Number minVahed
+  - Number maxVahed
+}
+EntekhabVahedTerm "*" o-- "1" Student
+
+package CourseAkhzShodeAgg {
+  EntekhabVahedTerm "1" o-- "*" CourseAkhzShode
+  
+  enum AkhzCourseState << (e,WhiteSmoke) enumeration>> {
+    Registered
+    Pending
+    HazfEzterari
+    HazfPezeshki
+    Registered in HazfEzafe
+    Pending in HazfEzafe
+  }
+  class CourseAkhzShode << (E,LightSkyBlue) >> {
+  }
+  CourseAkhzShode "*" o-- "1" CourseTermi
+  CourseAkhzShode "1" o-- "1" AkhzCourseState
+}
+AkhzCourseHandler <-- CourseAkhzShode
+class AkhzCourseHandler << (S,HotPink) Singleton >> {
+}
+MasoulAmoozesh <-- AkhzCourseHandler
+
+
+
+class MojavezHandler << (S,HotPink) Singleton >> {
+}
+MasoulAmoozesh <-- MojavezHandler
+
+
+
+package MojavezAgg {
+  MojavezHandler <-- DarkhastMojavez
+  ' MojavezHandler <-- AkhzCourseError
+  enum AkhzCourseError << (e,WhiteSmoke) enumeration>> {
+    AdamReayatPishNiaz
+    KafAkhzVahed
+    SaqfAkhzVahed
+    TadakholZamanClass
+    TadakholZamanEmtehan
+    AkhzMojadad
+    EtmamZarfiat
+    AkhzKarAmooziWithCourse
+  }
+
+  class DarkhastMojavez << (V,LawnGreen) >> {
+    - String description
+  }
+  DarkhastMojavez o-- AkhzCourseError
+  DarkhastMojavez o-- MojavezState
+  CourseAkhzShode "1" o-- "*" DarkhastMojavez
+  enum MojavezState << (e,WhiteSmoke) enumeration>> {
+    Rejected
+    Accepted
+    Pending
+  }
+}
+
+@enduml
