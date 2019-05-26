@@ -17,6 +17,8 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
   akhzCourse(courseTermi: CourseTermi): boolean {
     if (!this.checkMaxVahed(courseTermi.course.vahed)) return false;
     if (!AkhzCourseHandler.arePishniazDependenciesResolved(courseTermi.course, this.student)) return false;
+    if (!this.checkWeeklySchedule(courseTermi)) return false;
+    // TODO zaman emtehan
 
     this.courses.push(new CourseAkhzShode(AkhzCourseState.Registered, courseTermi));
     return true;
@@ -28,6 +30,11 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
   private checkMinVahed() {
     const totalVahed = this.AkhzShodeCourses().reduce((res, courseTermi) => res + courseTermi.course.vahed, 0);
     return totalVahed < this.minVahed;
+  }
+  private checkWeeklySchedule(courseTermi: CourseTermi) {
+    return courseTermi.weeklyTimeSlots.every(wts =>
+      this.AkhzShodeCourses().every(c => c.weeklyTimeSlots.every(otherWts => wts.interfere(otherWts)))
+    );
   }
 
   revertAkhzCourse(courseTermi: CourseTermi): boolean {
