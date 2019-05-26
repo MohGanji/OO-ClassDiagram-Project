@@ -30,6 +30,13 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
     return totalVahed < this.minVahed;
   }
 
+  revertAkhzCourse(courseTermi: CourseTermi): boolean {
+    const foundCourse = this.courses.find(c => c.courseTermi.course.id === courseTermi.course.id);
+    if (!foundCourse) return false;
+    this.courses = this.courses.filter(c => c.courseTermi.course.id !== courseTermi.course.id);
+    return true;
+  }
+
   applyAndFinalize(): boolean {
     if (!this.checkMinVahed()) return false;
     const akhzShodeCoursesTermi = this.AkhzShodeCourses();

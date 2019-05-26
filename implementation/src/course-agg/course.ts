@@ -3,6 +3,9 @@ import Niaz from './niaz';
 import NiazDarsi from './niaz-darsi';
 
 export class Course {
+  public get id(): string {
+    return this._id;
+  }
   public get courseType(): CourseTypeEnum {
     return this._courseType;
   }
@@ -23,7 +26,7 @@ export class Course {
   }
   pishniazHa: Niaz[] = [];
   hamniazHa: NiazDarsi[] = [];
-  constructor(private _name: string, private _vahed: number, private _courseType: CourseTypeEnum) {}
+  constructor(private _id: string, private _name: string, private _vahed: number, private _courseType: CourseTypeEnum) {}
 
   addPishniaz() {}
   addHamniaz() {}
