@@ -18,7 +18,9 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
     if (!this.checkMaxVahed(courseTermi.course.vahed)) return false;
     if (!AkhzCourseHandler.arePishniazDependenciesResolved(courseTermi.course, this.student)) return false;
     if (!this.checkWeeklySchedule(courseTermi)) return false;
-    // TODO zaman emtehan
+    if (!this.checkFinalExamSchedule(courseTermi)) return false;
+    if (!this.checkDuplicateCourse(courseTermi)) return false;
+    if (!this.checkCourseCapacity(courseTermi)) return false;
 
     this.courses.push(new CourseAkhzShode(AkhzCourseState.Registered, courseTermi));
     return true;
@@ -33,8 +35,20 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
   }
   private checkWeeklySchedule(courseTermi: CourseTermi) {
     return courseTermi.weeklyTimeSlots.every(wts =>
-      this.AkhzShodeCourses().every(c => c.weeklyTimeSlots.every(otherWts => wts.interfere(otherWts)))
+      this.AkhzShodeCourses().every(c => c.weeklyTimeSlots.every(otherWts => !wts.interfere(otherWts)))
     );
+  }
+  private checkFinalExamSchedule(courseTermi: CourseTermi) {
+    return this.AkhzShodeCourses().every(c => c.weeklyTimeSlots.every(otherWts => !courseTermi.finalExamTime.interfere(otherWts)));
+  }
+  private checkDuplicateCourse(courseTermi: CourseTermi) {
+    return (
+      this.AkhzShodeCourses().every(c => !c.course.isSameCourse(courseTermi.course)) &&
+      this.student.getAllPassedCourses().every(c => !c.course.isSameCourse(courseTermi.course))
+    );
+  }
+  private checkCourseCapacity(courseTermi: CourseTermi) {
+    return false;
   }
 
   revertAkhzCourse(courseTermi: CourseTermi): boolean {

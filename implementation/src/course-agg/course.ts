@@ -3,6 +3,9 @@ import Niaz from './niaz';
 import NiazDarsi from './niaz-darsi';
 
 export class Course {
+  isSameCourse(course: Course): boolean {
+    return this.id === course.id;
+  }
   public get id(): string {
     return this._id;
   }
