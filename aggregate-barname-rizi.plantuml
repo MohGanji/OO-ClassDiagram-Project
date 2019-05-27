@@ -77,10 +77,12 @@ package CourseAgg {
     - Number vahed
   }
   class NiazDarsi << (V,LawnGreen) >> {
+    - Course course
   } 
   Niaz <|-- NiazDarsi
 
   class NiazVahedi << (V,LawnGreen) >> {
+    - Number minVahedPassed
   } 
   Niaz <|-- NiazVahedi
   Course "1" o-- "*" Niaz : Pishniaz
@@ -98,12 +100,15 @@ package CourseTermiAgg {
   class CourseTermi << (E,LightSkyBlue) >> {
     - String year
     - String term
+    - Boolean isInternship
+    - Number capacity
+    + hasCapacity(): Boolean
   }
   CourseTermi "*" *---- "1" Course
   CourseTermi "*" o-- "*" Professor : professor
   ' CourseTermi "*" o-- "*" Student : students
-  CourseTermi "1" o-- "1" WeeklyTimeSlot
-  CourseTermi "1" o-- "1" College : presentationCollege
+  CourseTermi "1" o-- "2" WeeklyTimeSlot : weekly schedule\nand final exam
+  CourseTermi "1" o-- "1" College : presentation college
   class WeeklyTimeSlot << (V,LawnGreen) >> {
     - Time startTime
     - Time endTime

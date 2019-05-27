@@ -31,6 +31,10 @@ export class Course {
   hamniazHa: NiazDarsi[] = [];
   constructor(private _id: string, private _name: string, private _vahed: number, private _courseType: CourseTypeEnum) {}
 
-  addPishniaz() {}
-  addHamniaz() {}
+  addPishniaz(niaz: Niaz) {
+    this.pishniazHa.push(niaz);
+  }
+  addHamniaz(niaz: NiazDarsi) {
+    this.hamniazHa.push(niaz);
+  }
 }
