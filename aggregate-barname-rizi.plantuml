@@ -26,6 +26,10 @@ Person <|- Student
 class Student << (E,LightSkyBlue) >> {
   - String sid
   - Number avgGrade
+  - Number VahedPassed
+  + CourseTermi[] getAllPassedCourses()
+  + void addEntekhabVahedTerm()
+  + EntekhabVahedTerm getCurrentTermEntekhabVahed()
 }
 
 
@@ -73,8 +77,11 @@ package CourseAgg {
   }
 
   class Course << (E,LightSkyBlue) >> {
+    - String id
     - String name
     - Number vahed
+    + void addPishNiaz()
+    + void addHamNiaz()
   }
   class NiazDarsi << (V,LawnGreen) >> {
     - Course course
@@ -90,8 +97,8 @@ package CourseAgg {
   Course  o-- CourseTypeEnum : courseType 
 
   enum CourseTypeEnum << (e,WhiteSmoke) enumeration>> {
-    theory
-    practical
+    Theory
+    Practical
   }
 }
 
@@ -102,16 +109,18 @@ package CourseTermiAgg {
     - String term
     - Boolean isInternship
     - Number capacity
-    + hasCapacity(): Boolean
+    - Boolean isInternship
+    + Boolean hasCapacity()
   }
   CourseTermi "*" *---- "1" Course
   CourseTermi "*" o-- "*" Professor : professor
   ' CourseTermi "*" o-- "*" Student : students
-  CourseTermi "1" o-- "2" WeeklyTimeSlot : weekly schedule\nand final exam
+  CourseTermi "1" o-- "*" WeeklyTimeSlot : weekly schedule\nand final exam
   CourseTermi "1" o-- "1" College : presentation college
   class WeeklyTimeSlot << (V,LawnGreen) >> {
     - Time startTime
     - Time endTime
+    + Boolean interfere()
   }
   WeeklyTimeSlot o-- DayOfWeek : weekDay
   enum DayOfWeek << (e,WhiteSmoke) enumeration>> {
@@ -134,6 +143,11 @@ package CourseTermiAgg {
 class EntekhabVahedTerm << (E,LightSkyBlue) >> {
   - Number minVahed
   - Number maxVahed
+  + CourseTermi[] getPassedCourses()
+  + Boolean akhzCourse()
+  + Boolean applyAndFinalize()
+  + Boolean revertAkhzCourse()
+  + CourseTermi[] getRegisteredCourses()
 }
 EntekhabVahedTerm "*" --o "1" Student
 
@@ -145,7 +159,7 @@ package CourseAkhzShodeAgg {
     Pending
     HazfEzterari
     HazfPezeshki
-    Registered in HazfEzafe
+    Registered in HazfEzterari
     Pending in HazfEzafe
     Passed
     Failed
@@ -157,6 +171,8 @@ package CourseAkhzShodeAgg {
 }
 AkhzCourseHandler <-- CourseAkhzShode
 class AkhzCourseHandler << (S,HotPink) Singleton >> {
+  + Student[] studentsWhoRegisteredCourse()
+  + Boolean arePishniazDependenciesResolved()
 }
 MasoulAmoozesh <-- AkhzCourseHandler
 
