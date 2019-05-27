@@ -6,8 +6,11 @@ import { CourseTermi } from './course-termi-agg/course-termi';
 import AkhzCourseHandler from './akhz-course-handler';
 
 export default interface EntekhabVahedTerm {
-  getPassedCourses(): CourseAkhzShode[];
+  getPassedCourses(): CourseTermi[];
   akhzCourse(courseTermi: CourseTermi): boolean;
+  applyAndFinalize(): boolean;
+  revertAkhzCourse(courseTermi: CourseTermi): boolean;
+  getRegisteredCourses(): CourseTermi[];
 }
 
 class EntekhabVahedTermImpl implements EntekhabVahedTerm {
@@ -21,9 +24,14 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
     if (!this.checkFinalExamSchedule(courseTermi)) return false;
     if (!this.checkDuplicateCourse(courseTermi)) return false;
     if (!this.checkCourseCapacity(courseTermi)) return false;
+    if (!this.checkInternship(courseTermi)) return false;
 
     this.courses.push(new CourseAkhzShode(AkhzCourseState.Registered, courseTermi));
     return true;
+  }
+  private checkInternship(courseTermi: CourseTermi) {
+    const hasInternship = this.courses.some(c => c.courseTermi.isInternship);
+    return hasInternship ? courseTermi.isInternship : !courseTermi.isInternship;
   }
   private checkMaxVahed(vahed: number) {
     const totalVahed = this.AkhzShodeCourses().reduce((res, courseTermi) => res + courseTermi.course.vahed, 0);
@@ -48,7 +56,7 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
     );
   }
   private checkCourseCapacity(courseTermi: CourseTermi) {
-    return false;
+    return courseTermi.hasCapacity();
   }
 
   revertAkhzCourse(courseTermi: CourseTermi): boolean {
@@ -77,8 +85,11 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
       .map(courseAkhzShode => courseAkhzShode.courseTermi);
   }
 
-  getPassedCourses(): CourseAkhzShode[] {
-    return this.courses.filter(c => c.state === AkhzCourseState.Passed);
+  getPassedCourses(): CourseTermi[] {
+    return this.courses.filter(c => c.state === AkhzCourseState.Passed).map(c => c.courseTermi);
+  }
+  getRegisteredCourses(): CourseTermi[] {
+    return this.courses.filter(c => c.state === AkhzCourseState.Registered).map(c => c.courseTermi);
   }
 }
 

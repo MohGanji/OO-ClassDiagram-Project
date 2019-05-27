@@ -1,9 +1,9 @@
 import { DayOfWeek } from './day-of-week-enum';
 
 export default interface WeeklyTimeSlot {
-  startTime: Time;
-  endTime: Time;
-  weekDays: DayOfWeek[];
+  readonly startTime: Time;
+  readonly endTime: Time;
+  readonly weekDays: DayOfWeek[];
   interfere(otherWeeklyTimeSlot: WeeklyTimeSlot): boolean;
 }
 

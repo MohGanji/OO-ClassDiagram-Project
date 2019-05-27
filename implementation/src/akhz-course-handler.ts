@@ -2,8 +2,17 @@ import { Course } from './course-agg/course';
 import Student from './student';
 import NiazDarsi from './course-agg/niaz-darsi';
 import NiazVahedi from './course-agg/niaz-vahedi';
+import { CourseTermi } from './course-termi-agg/course-termi';
+import StudentRepository from './repositories/student-repository';
 
 class AkhzCourseHandlerSingleton {
+  studentsWhoRegisteredCourse(courseTermi: CourseTermi): Student[] {
+    return StudentRepository.getAllStudents().filter(s => {
+      const currentTermEntekhabVahed = s.getCurrentTermEntekhabVahed();
+      if (!currentTermEntekhabVahed) return false;
+      return currentTermEntekhabVahed.getRegisteredCourses().some(c => c.isSameCourseTermi(courseTermi));
+    });
+  }
   constructor() {}
 
   arePishniazDependenciesResolved(course: Course, student: Student): boolean {
