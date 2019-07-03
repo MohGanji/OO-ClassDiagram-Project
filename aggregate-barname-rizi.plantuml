@@ -14,7 +14,7 @@ skinparam stereotypeABackgroundColor yellow
 
 title \n1.1 - Aggregate barname rizi\n
 
-abstract class Person {
+class Person {
   - String firstName
   - String lastName
   - String phoneNumber
