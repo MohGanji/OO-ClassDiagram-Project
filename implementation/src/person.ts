@@ -1,4 +1,4 @@
-export default abstract class Person {
+export default class Person {
   protected get nationalCode(): string {
     return this._nationalCode;
   }

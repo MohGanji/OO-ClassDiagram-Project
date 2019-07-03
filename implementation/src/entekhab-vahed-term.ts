@@ -95,9 +95,7 @@ class EntekhabVahedTermImpl implements EntekhabVahedTerm {
 
 export const EntekhabVahedTermFactory = {
   createEntekhabVahedTerm(student: Student, term: EducationalTerm) {
-    const { enteranceTerm, avgGrade } = student;
-    const maxVahed = avgGrade < 12 ? 14 : avgGrade > 17 ? 24 : 20;
-    const minVahed = term.year - enteranceTerm.year >= 4 ? 0 : 12;
+    const { minVahed, maxVahed } = AkhzCourseHandler.getMinAndMaxVahedStudentCanTake(student, term);
     const entekhabVahedTerm = new EntekhabVahedTermImpl(minVahed, maxVahed, term, student);
     student.addEntekhabVahedTerm(entekhabVahedTerm);
   }

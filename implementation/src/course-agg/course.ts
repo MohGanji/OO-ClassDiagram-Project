@@ -16,10 +16,13 @@ export class Course {
     this._courseType = value;
   }
   public get vahed(): number {
-    return this._vahed;
+    return this._vahedTheorical + this._vahedPractical;
   }
-  public set vahed(value: number) {
-    this._vahed = value;
+  public set vahedTheorical(value: number) {
+    this._vahedTheorical = value;
+  }
+  public set vahedPractical(value: number) {
+    this._vahedPractical = value;
   }
   public get name(): string {
     return this._name;
@@ -29,7 +32,13 @@ export class Course {
   }
   pishniazHa: Niaz[] = [];
   hamniazHa: NiazDarsi[] = [];
-  constructor(private _id: string, private _name: string, private _vahed: number, private _courseType: CourseTypeEnum) {}
+  constructor(
+    private _id: string,
+    private _name: string,
+    private _vahedTheorical: number,
+    private _vahedPractical: number,
+    private _courseType: CourseTypeEnum
+  ) {}
 
   addPishniaz(niaz: Niaz) {
     this.pishniazHa.push(niaz);

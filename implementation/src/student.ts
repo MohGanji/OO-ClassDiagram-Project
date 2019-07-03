@@ -1,8 +1,7 @@
+import { CourseTermi } from './course-termi-agg/course-termi';
 import EducationalTerm from './educational-term';
 import EntekhabVahedTerm from './entekhab-vahed-term';
 import Person from './person';
-import CourseAkhzShode from './course-akhz-shode-agg/course-akhz-shode';
-import { CourseTermi } from './course-termi-agg/course-termi';
 import StudentRepository from './repositories/student-repository';
 
 export default interface Student {
@@ -15,7 +14,7 @@ export default interface Student {
   getCurrentTermEntekhabVahed(): EntekhabVahedTerm | undefined;
 }
 
-class StudentImpl extends Person implements Student {
+class StudentImpl implements Student {
   public get sid(): string {
     return this._sid;
   }
@@ -30,16 +29,7 @@ class StudentImpl extends Person implements Student {
   get avgGrade() {
     return this._avgGrade;
   }
-  constructor(
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
-    nationalCode: string,
-    private _sid: string,
-    private _enteranceTerm: EducationalTerm
-  ) {
-    super(firstName, lastName, phoneNumber, nationalCode);
-  }
+  constructor(private person: Person, private _sid: string, private _enteranceTerm: EducationalTerm) {}
   addEntekhabVahedTerm(entekhabVahedTerm: EntekhabVahedTerm) {
     this.entekhabVahedTerms.push(entekhabVahedTerm);
   }
@@ -52,15 +42,8 @@ class StudentImpl extends Person implements Student {
 }
 
 export const StudentFactory = {
-  createStudent(
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
-    nationalCode: string,
-    sid: string,
-    enteranceTerm: EducationalTerm
-  ) {
-    const student = new StudentImpl(firstName, lastName, phoneNumber, nationalCode, sid, enteranceTerm);
+  createStudent(person: Person, sid: string, enteranceTerm: EducationalTerm) {
+    const student = new StudentImpl(person, sid, enteranceTerm);
     StudentRepository.save(student);
     return student;
   }
