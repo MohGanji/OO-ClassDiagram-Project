@@ -25,7 +25,7 @@ export class CourseTermi {
     private _course: Course,
     private year: string,
     private term: string,
-    private professor: Professor[],
+    private professors: Professor[],
     private presentationCollege: College,
     private _weeklyTimeSlots: WeeklyTimeSlot[],
     private _finalExamTime: WeeklyTimeSlot,

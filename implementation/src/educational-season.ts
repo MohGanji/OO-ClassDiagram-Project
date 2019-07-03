@@ -1,4 +1,4 @@
 export enum EducationalSeason {
   Fall,
-  Winter
+  Spring
 }
