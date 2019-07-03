@@ -29,6 +29,7 @@ class Student << (E,LightSkyBlue) >> {
   + CourseTermi[] getAllPassedCourses()
   + void addEntekhabVahedTerm()
   + EntekhabVahedTerm getCurrentTermEntekhabVahed()
+  + Boolean hasGraduated()
 }
 
 
@@ -47,12 +48,19 @@ class Professor << (E,LightSkyBlue) >> {
   - String pid
 }
 
-package ChartAgg {
-  class Chart << (E,LightSkyBlue) >> {
-  }
+class Chart << (E,LightSkyBlue) >> {
 }
+
 Chart "*" o-- "1" EducationalTerm
 EntekhabVahedTerm "*" o-- "1" EducationalTerm
+Chart "1" --o "1" Student
+
+GraduationHandler <-- Student
+class GraduationHandler << (S,HotPink) Singleton >> {
+  + Boolean hasPassedRequiredCourses()
+  + Boolean hasPassedSelectiveCourses()
+  + Boolean hasPassedEnoughOptionalCourses()
+}
 
 package CourseAgg {
   Chart "*" o--- "*" Course
