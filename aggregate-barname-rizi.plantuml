@@ -49,6 +49,11 @@ class Professor << (E,LightSkyBlue) >> {
 }
 
 class Chart << (E,LightSkyBlue) >> {
+  - id
+  - requiredCourses
+  - optionalCourses
+  - optionalCourseCount
+  - selectiveCourseGroups
 }
 
 Chart "*" o-- "1" EducationalTerm

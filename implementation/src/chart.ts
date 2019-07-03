@@ -32,15 +32,9 @@ export class Chart {
     public set id(value: string) {
         this._id = value;
     }
-    public get terms(): EducationalTerm[] {
-        return this._terms;
-    }
-    public set terms(value: EducationalTerm[]) {
-        this._terms = value;
-    }
+
     constructor(
         private _id: string,
-        private _terms: EducationalTerm[],
         private _requiredCourses: Course[],
         private _optionalCourses: Course[],
         private _optionalCourseCount: number,
