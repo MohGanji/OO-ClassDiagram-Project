@@ -14,7 +14,7 @@ skinparam stereotypeABackgroundColor yellow
 
 title \n1.1 - Aggregate barname rizi\n
 
-class Person {
+class Person << (E,LightSkyBlue) >> {
   - String firstName
   - String lastName
   - String phoneNumber
@@ -92,7 +92,7 @@ package CourseAgg {
   Course "1" o-- "*" NiazDarsi : Hamniaz
   Course "1" o-- "2" CourseVahed : courseType 
 
-  class CourseVahed {
+  class CourseVahed << (V,LawnGreen) >> {
     - Number theoryVahed
     - Number theoryPractical
   }
