@@ -20,8 +20,7 @@ abstract class Person {
   - String phoneNumber
   - String nationalCode
 }
-Person <|- MasoulAmoozesh
-Person <|- Student
+Person --o Student
 
 class Student << (E,LightSkyBlue) >> {
   - String sid
@@ -37,32 +36,16 @@ enum EducationalSeason << (e,WhiteSmoke) enumeration>> {
 class EducationalTerm << (V,LawnGreen) >> {
   - string year
 }
-EducationalTerm o-left- EducationalSeason
+EducationalTerm o-- EducationalSeason
 
-Person <|- Professor
+Person --o Professor
 class Professor << (E,LightSkyBlue) >> {
   - String pid
 }
 
-class MasoulAmoozesh << (E,LightSkyBlue) >> {
-}
-
-
 package ChartAgg {
-' Reshte
-  class Major << (E,LightSkyBlue) >> {
-    - string name
-  }
-
-' Gerayesh
-  class Field << (E,LightSkyBlue) >> {
-    - string name
-  }
-
   class Chart << (E,LightSkyBlue) >> {
   }
-  Field "*" -- "1" Major
-  Chart "1" o-- "1" Field
 }
 Chart "*" o-- "1" EducationalTerm
 EntekhabVahedTerm "*" o-- "1" EducationalTerm
@@ -74,7 +57,6 @@ package CourseAgg {
 
   class Course << (E,LightSkyBlue) >> {
     - String name
-    - Number vahed
   }
   class NiazDarsi << (V,LawnGreen) >> {
     - Course course
@@ -87,11 +69,11 @@ package CourseAgg {
   Niaz <|-- NiazVahedi
   Course "1" o-- "*" Niaz : Pishniaz
   Course "1" o-- "*" NiazDarsi : Hamniaz
-  Course  o-- CourseTypeEnum : courseType 
+  Course "1" o-- "2" CourseVahed : courseType 
 
-  enum CourseTypeEnum << (e,WhiteSmoke) enumeration>> {
-    theory
-    practical
+  class CourseVahed {
+    - Number theoryVahed
+    - Number theoryPractical
   }
 }
 
@@ -158,13 +140,11 @@ package CourseAkhzShodeAgg {
 AkhzCourseHandler <-- CourseAkhzShode
 class AkhzCourseHandler << (S,HotPink) Singleton >> {
 }
-MasoulAmoozesh <-- AkhzCourseHandler
 
 
 
 class MojavezHandler << (S,HotPink) Singleton >> {
 }
-MasoulAmoozesh <-- MojavezHandler
 
 
 
